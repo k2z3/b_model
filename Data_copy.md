@@ -6,7 +6,7 @@
 
 1.  Остановить модель
 2.  Скопировать файлы необходимых процессов в основную папку данных модели (/data/):
-    - [[}b.cube.data.clear)]]
+    - [[}b.cube.data.clear]]
     - [}b.cube.view.create.pro](/wiki/}b.cube.view.create)
     - [}b.hier.sub.create.pro](/wiki/}b.hier.sub.create)
     - [}b.hier.sub.exclude.pro](/wiki/}b.hier.sub.exclude)
