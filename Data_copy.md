@@ -10,7 +10,7 @@
     - [}b.cube.view.create.pro](https://github.com/k2z3/b_model/wiki/}b.cube.view.create)
     - [}b.hier.sub.create.pro](https://github.com/k2z3/b_model/wiki/}b.hier.sub.create)
     - [}b.hier.sub.exclude.pro](https://github.com/k2z3/b_model/wiki/}b.hier.sub.exclude)
-    - [}b.hier.sub.create.bymdx.pro](https://github.com/k2z3/b_model/}b.hier.sub.create.bymdx)
+    - [}b.hier.sub.create.bymdx.pro](https://github.com/k2z3/b_model/wiki/}b.hier.sub.create.bymdx)
     - [}b.cube.data.export.pro](https://github.com/k2z3/b_model/wiki/}b.cube.data.export)
     - [}b.cube.data.copy.pro](https://github.com/k2z3/b_model/wiki/}b.cube.data.copy)
 3.  (необяз.) Отредактировать файл }b.cube.data.copy.pro, раздел «File location for indirect data copy » (если будет использоваться экспорт через файл). Проставить разделитель, кавычки, папку хранения csv файлов.
