@@ -1,45 +1,25 @@
-## Description
-   
- This process replicates an existing cube. It can include data & rules too.  
-     
-**Use Case:**    Intended for development/prototyping.  
- 1. Take a snapshot of cube data copying all rules to values.  
- 2. Take an exact copy of a cube in a "one click action" as a starting point for prototyping rule changes or developing new features.  
-     
-**Note:**  
-    
- * There are parameter options to include data (`pIncludeData`) and rules (`pIncludeRules`) with the creation of the cube.  
- * If the source cube (`pSrcCube`) is left blank or doesn't exist in the model, process will terminate withoud doing anything.  
- * If the target cube (`pTgtCube`) already exists in the model, process will terminate withoud doing anything.  
- * If the target cube is left blank or is the same as the source cube the cloned cube will inherit the source cube name with "_Clone" appended.  
- * If the source cube data only needs to be partially copied, then the `pFilter` parameter should be entered otherwise all other parameters can be left as is.  
- * In productive systems this process may be called internally by other processes (}bedrock.cube.data.copy, }bedrock.cube.data.copy.intercube) if copying data via intermediate cloned cube.  
-## Process Parameters
-  
-|Parameter|Data Type|Default|Prompt Text|
-  |---|:-:|:-:|---|
-  |`pLogOutput`|Numeric|`0`|OPTIONAL: Write parameters and action summary to server message log (Boolean True = 1)|
-  |`pSrcCube`|String||REQUIRED: Source Cube|
-  |`pTgtCube`|String||OPTIONAL: Target Cube to create/re-create (Source cube_clone if left blank)|
-  |`pIncludeRules`|Numeric|`1`|REQUIRED: Include cube rules? (Boolean Yes = 1)|
-  |`pIncludeData`|Numeric|`0`|REQUIRED: Include cube data? (Boolean Yes = 1)|
-  |`pFilter`|String||OPTIONAL: Filter on source cube in format Year¦ 2006 + 2007 & Scenario¦ Actual + Budget. Blank for whole cube|
-  |`pDimDelim`|String|`&`|OPTIONAL: Delimiter for start of Dimension/Element set  (default value if blank = '&')|
-  |`pEleStartDelim`|String|`¦`|OPTIONAL: Delimiter for start of element list  (default value if blank = '¦')|
-  |`pEleDelim`|String|`+`|OPTIONAL: Delimiter between elements (default value if blank = '+')|
-  |`pSuppressRules`|Numeric|`1`|REQUIRED: Skip rule values? (1=skip)|
-  |`pTemp`|Numeric|`1`|REQUIRED: Delete temporary view and Subset ( 0 = Retain View and Subsets 1 = Delete View and Subsets 2 = Delete View only )|
-  |`pCubeLogging`|Numeric|`0`|Required: Cube Logging (0 = No transaction logging, 1 = Logging of transactions, 2 = Ignore Cube Logging - No Action Taken)|
-  ## Full Process Dependencies
-  
-|Process|ExecuteProcess|RunProcess|
-  |---|:-:|:-:|
-  |[`}bedrock.cube.create`](}bedrock.cube.create)|Y|N|
-  |[`}bedrock.cube.data.copy.intercube`](}bedrock.cube.data.copy.intercube)|Y|N|
-  |[`}bedrock.cube.view.create`](}bedrock.cube.view.create)|Y|N|
-  |[`}bedrock.cube.data.clear`](}bedrock.cube.data.clear)|Y|N|
-  |[`}bedrock.cube.data.export`](}bedrock.cube.data.export)|Y|N|
-  |[`}bedrock.hier.sub.create`](}bedrock.hier.sub.create)|Y|N|
-  |[`}bedrock.hier.sub.exclude`](}bedrock.hier.sub.exclude)|Y|N|
-  |[`}bedrock.hier.sub.create.bymdx`](}bedrock.hier.sub.create.bymdx)|Y|N|
-  
+   **Аннотация**
+
+Данный набор «Копирование данных куба» содержит описание минимального протестированного функционала по копированию данных внутри куба, в том числе через текстовый файл.
+
+# 
+
+# Процедура импорта
+
+### Шаги по переносу функционала в модель
+
+1.  Остановить модель
+2.  (необяз.) Создать папку main там же, где папка data. Добавить ее пусть в файл tm1s.cfg, изменив строчку DataBaseDirectory (DataBaseDirectory=data;main). На следующем шаге все процессы копировать в нее.
+3.  Скопировать следующие файлы в папку данных модели:
+    1.  }b.cube.data.clear.pro
+    2.  }b.cube.view.create.pro
+    3.  }b.hier.sub.create.pro
+    4.  }b.hier.sub.exclude.pro
+    5.  }b.hier.sub.create.bymdx.pro
+    6.  }b.cube.data.export.pro
+    7.  }b.cube.data.copy.pro
+4.  (необяз.) Отредактировать файл }b.cube.data.copy.pro, раздел «File location for indirect data copy » (если будет использоваться экспорт через файл). Проставить разделитель, кавычки, папку хранения csv файлов.
+5.  Запустить модель
+6.  Протестировать на тестовых данных:
+    1.  Запустить процесс копирования с версии на версию с использованием фильтра
+    2.  (необяз.) Запустить аналогичный процесс с параметром pFile = 2 и pFile = 1, проверить корректность переносимых данных
